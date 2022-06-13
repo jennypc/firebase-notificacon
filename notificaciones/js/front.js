@@ -43,9 +43,12 @@ const controller = {
       model.init();
       view.init();
       this.autorizarOnClick();
-       let enableForegroundNotification=true;
-         onMessage(messaging, (payload) => {
-          console.log('Message received. ', payload);
+      
+  },
+    mensaje: function(){
+        let enableForegroundNotification=true;
+        onMessage(messaging, (payload) => {
+        console.log('Message received. ', payload);
           if(enableForegroundNotification){
                     const {title, ...options}=JSON.parse(payload.data.notification);
                     navigator.serviceWorker.getRegistrations().then( registration =>{
@@ -53,8 +56,8 @@ const controller = {
                     });
                 }
         });
-  },
-    
+         },
+            
     obtenerToken: function(){
          const _self = this;
          getToken (messaging, { vapidKey: 'BJUadyYJRch64rlN3smzry3eVwGowO4OzLS6UvFi7GdQ0Igak92fKogUeY89I3p3tU8GTEn8obI-42v1ZcL9ARY'})

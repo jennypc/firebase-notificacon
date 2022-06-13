@@ -2,7 +2,8 @@
 //importScripts('https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js');
 //importScripts('https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging.js');
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js";
-import { getMessaging} from "https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging.js";
+import { getMessaging}  from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging.js';
+import { onBackgroundMessage}  from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging-sw.js';
 
 const firebaseApp = initializeApp({
   apiKey: 'AIzaSyD417G-raCnishcFaE9VwH2KPRiDRDXL1s',
@@ -19,7 +20,6 @@ const messaging = getMessaging(firebaseApp);
 //const messaging = getMessaging();
 onBackgroundMessage(messaging, (payload) => {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
-   Customize notification here
   const notificationTitle = 'Background Message Title';
   const notificationOptions = {
     body: 'Background Message body.',
