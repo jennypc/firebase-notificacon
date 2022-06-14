@@ -45,18 +45,6 @@ const controller = {
       this.autorizarOnClick();
       
   },
-    mensaje: function(){
-        let enableForegroundNotification=true;
-        onMessage(messaging, (payload) => {
-        console.log('Message received. ', payload);
-          if(enableForegroundNotification){
-                    const {title, ...options}=JSON.parse(payload.data.notification);
-                    navigator.serviceWorker.getRegistrations().then( registration =>{
-                        registration[0].showNotification(title, options);
-                    });
-                }
-        });
-         },
             
     obtenerToken: function(){
          const _self = this;
@@ -91,6 +79,18 @@ const controller = {
           _self.obtenerToken();
       });
     }
-};
+    };
+
+ 
+     let enableForegroundNotification=true;
+        onMessage(messaging, (payload) => {
+                console.log("mensaje recibido");
+                if(enableForegroundNotification){
+                    const {title, ...options}=JSON.parse(payload.data.notification);
+                    navigator.serviceWorker.getRegistrations().then( registration =>{
+                        registration[0].showNotification(title, options);
+                    });
+                }
+        });
 
 controller.init();

@@ -1,25 +1,18 @@
 <?php 
 include "conexion.php";
 
-$severKey="SERVER_KEY";
+$severKey="AAAAzCKy1C4:APA91bGEIdtimjiTi9oech4g6dEohwID0JxrXVwB9IT_9C9CdMA4cFBvV0Sdlw5bkCySuErxSR_t8w1popvV9obDe_NFAdr-sTpCHpjZUGp533Oq6i09NN79SrBOcKCEAZw_tX27BMmk";
 $url="https://fcm.googleapis.com/fcm/send";
 
-$mensaje = $_POST['mensaje'];
-$tokenId=$_POST['token'];
-$prioridad=$_POST['prioridad'];
-$icono="http://localhost/notificaciones/img/icon.png";
-if($prioridad == 'alta'){
-    $icono="http://localhost/notificaciones/img/icon.png";
-}
 $field=array(
     'data'=>array(
         'notification'=>array(
-            'title'=>'No has pagado',
-            'body'=>$mensaje,
-            'icon'=>$icono
+            'title'=>'Hola',
+            'body'=>'Esta es una notificacion',
+            'icon'=>'http://localhost/notificaciones/img/icon.png'
         )
         ),
-    'to'=>$tokenId    
+    'to'=>'dIflFlxrWFxkTfLMtMAdyv:APA91bE8gUKNHMnajGnLMKUVv-ChniUT25bFzEJYygC4cQoHnl8mp63M9hDtkT1bksSgaFL-r_18RpUWmooER7u3Oj0TAk9BHL3JPgroXu4EncNqSDc_aB6PmESF140J9HAAQ_zrxwhs'    
 );
 $fields=json_encode($field);
 
