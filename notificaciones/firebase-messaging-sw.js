@@ -5,7 +5,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.8.2/firebase
 import { getMessaging, onBackgroundMessage}  from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging.js';
 //import { onBackgroundMessage}  from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging-sw.js';
 
-const firebaseApp = initializeApp({
+const firebaseApp = {
   apiKey: 'AIzaSyD417G-raCnishcFaE9VwH2KPRiDRDXL1s',
   authDomain: 'mensajes-307ff.firebaseapp.com',
   projectId: 'mensajes-307ff',
@@ -13,7 +13,7 @@ const firebaseApp = initializeApp({
   messagingSenderId: '876755473454',
   appId: '1:876755473454:web:03173b77516be96df1bbbf',
   measurementId: 'G-901C9N1G4K',
-}); 
+}; 
 
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(firebaseApp);

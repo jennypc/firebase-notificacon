@@ -1,27 +1,32 @@
 <?php
     include "./conexion.php";
 
-//$data = {message: 'Respuesta de mi php'};
-//header('Content-Type: application/json; charset=utf-8');
-//echo json_encode($data);
-
     $token = $_POST['token'];
-    $id_usuario=1;
-    $registros="select * from suscripciones where id_user = '$id_usuario'";
-    $registrosResult = sqlsrv_query($cnx, $registros);
-    if (!$registrosResult) die( print_r( sqlsrv_errors(), true));
-    if(sqlsrv_num_rows($registrosResult)>0){
-        $fila=sqlsrv_fetch_row($registrosResult);
-        $cnx = "update suscripciones set token='$token' where id_user='$id_usuario'";
-        $conexionResult = sqlsrv_query($cnx, $cnx);
-        if (!$conexionResult) die( print_r( sqlsrv_errors(), true));
-    }else{
-        $conexion = "insert into suscripciones (token, id_user) values('$token',$id_usuario)";
-        $conexionResult = sqlsrv_query($cnx, $conexion);
-        if (!$conexionResult) die( print_r( sqlsrv_errors(), true));
-    }
-//$data = {message: 'Respuesta de mi php'};
-//header('Content-Type: application/json; charset=utf-8');
-//echo json_encode($data);
+    $av="select * from suscripciones
+    where token='$token'";
+    $avi=sqlsrv_query($cnx,$av);
+    $valida=sqlsrv_fetch_array($avi);
 
+if(isset($valida)){
+    echo '<script>alert("El token ya existe en la base de datos")</script>';
+    echo '<meta http-equiv="refresh" content="0,url=index.html">';
+} else{
+    $id_usuario=1;
+    $us="select * from suscripciones 
+    where id_user='$id_usuario'";
+    $usr=sqlsrv_query($cnx,$us);
+    $vaidaUsr=sqlsrv_fetch_array($usr);
+    
+    if(isset($vaidaUsr)){
+        $token = "update suscripciones set token='$token' where id_user='$id_usuario'";
+        $tokenResult = sqlsrv_query($cnx, $token);
+        echo '<script>alert("Se realizo el update")</script>';
+        echo '<meta http-equiv="refresh" content="0,url=index.html">';
+    } else{
+        $token = "insert into suscripciones (token, id_user) values('$token',$id_usuario)";
+        $tokenResult = sqlsrv_query($cnx, $token);
+        echo '<script>alert("Se realizo el isert")</script>';
+        echo '<meta http-equiv="refresh" content="0,url=index.html">';
+    }
+}
 ?>

@@ -1,7 +1,7 @@
 
 <?php
 $serverName = "localhost";
-    $connectionInfo = array( 'Database'=>'ejemplo', 'UID'=>'Jenny', 'PWD'=>'12345');
+    $connectionInfo = array( 'Database'=>'prueba', 'UID'=>'Jenn', 'PWD'=>'contraseña');
     $cnx = sqlsrv_connect($serverName, $connectionInfo);
     date_default_timezone_set('America/Mexico_City');
 

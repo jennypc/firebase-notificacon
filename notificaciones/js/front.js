@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-analytics.js";
-import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging.js";
+import { getMessaging, getToken, onMessage} from "https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging.js";
+import { onBackgroundMessage}  from 'https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging-sw.js';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -34,7 +35,8 @@ const view = {
     init: function(){
         console.log("Iniciando vista");
     },
-    myButton: $("#autorizar")
+    myButton: $("#autorizar"),
+    myButton2: $("#enviar")
 };
 
 const controller = {
@@ -43,8 +45,31 @@ const controller = {
       model.init();
       view.init();
       this.autorizarOnClick();
+      this.enviarOnClick();
+      this.mensaje();
       
   },
+    mensaje: function(){
+    let enableForegroundNotification=true;
+        onMessage(messaging, (payload) => {
+                console.log("mensaje recibido",payload);
+                if(enableForegroundNotification){
+                    const {title, body}=payload.notification;
+                }
+        });
+//        onBackgroundMessage(messaging, (payload) => {
+//          console.log('[firebase-messaging-sw.js] Received background message ', payload);
+//          // Customize notification here
+//          const notificationTitle = payload.notification.title;
+//          const notificationOptions = {
+//            body: payload.notification.body,
+//          };
+//
+//          self.registration.showNotification(notificationTitle,
+//            notificationOptions);
+//        });
+
+},
             
     obtenerToken: function(){
          const _self = this;
@@ -70,6 +95,10 @@ const controller = {
             console.log(e);
         });
     },
+    enviarNotificacion: function(){
+        console.log('se ejecuto');
+        axios.post('https://fcm.googleapis.com/fcm/send',{ "notification": { "title": "Hey amigo, lee esto!", "body": "Felicidades!! Has recibido una gloriosa notificación", "icon": "/notificaciones/images/user-icon.png" }, "to" : "div-G_W7LJG-pyqhHqIaFc:APA91bHUp1ftmvAr41J7pkgLQvlbq6k_M-_FK5amTTFvpwj-j2eNSd3fiqM62-MznzbJxJPKTACdOWBgMut6K5lwWQ_v3-iiusaLEavRLug94AbNiKipnxz4sgNf5zgQIRPvgDVtNMAG"},{headers:{'Authorization': 'key=AAAAzCKy1C4:APA91bGEIdtimjiTi9oech4g6dEohwID0JxrXVwB9IT_9C9CdMA4cFBvV0Sdlw5bkCySuErxSR_t8w1popvV9obDe_NFAdr-sTpCHpjZUGp533Oq6i09NN79SrBOcKCEAZw_tX27BMmk'}})
+    },
     
     autorizarOnClick: function(){
       const _self = this;
@@ -78,19 +107,18 @@ const controller = {
           console.log("click en el boton");
           _self.obtenerToken();
       });
+    },
+    enviarOnClick: function(){
+        const _self = this;
+      view.myButton2.click(function(evt){
+          evt.preventDefault();
+          console.log("click en el boton");
+          _self.enviarNotificacion();
+      });
+        
     }
     };
 
- 
-     let enableForegroundNotification=true;
-        onMessage(messaging, (payload) => {
-                console.log("mensaje recibido");
-                if(enableForegroundNotification){
-                    const {title, ...options}=JSON.parse(payload.data.notification);
-                    navigator.serviceWorker.getRegistrations().then( registration =>{
-                        registration[0].showNotification(title, options);
-                    });
-                }
-        });
+     
 
 controller.init();
